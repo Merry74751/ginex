@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-type Handle func(c *gin.Context) any
+type Handle func(c *gin.Context) (any, error)
 
 type Group interface {
 	GroupName() string

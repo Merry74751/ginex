@@ -57,10 +57,18 @@ func ConvertResult(v any) any {
 	return ObjRes(v)
 }
 
-func ConvertHandle(f func(c *gin.Context) any) gin.HandlerFunc {
+func ConvertHandle(f func(c *gin.Context) (any, error)) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		v := f(c)
+		v, err := f(c)
+		if err != nil {
+			if status, ok := err.(HttpStatus); ok {
+				c.JSON(status.Status(), Res{Status: status.Status(), Message: err.Error()})
+				return
+			}
+			c.JSON(500, err.Error())
+			return
+		}
 		result := ConvertResult(v)
-		c.JSONP(200, result)
+		c.JSON(200, result)
 	}
 }
