@@ -68,6 +68,10 @@ func ConvertHandle(f func(c *gin.Context) (any, error)) gin.HandlerFunc {
 			c.JSON(500, err.Error())
 			return
 		}
+		if v == nil || anyutil.isNil(v) {
+			c.JSON(200, Res{Status: 200, Message: "请求成功"})
+			return
+		}
 		result := ConvertResult(v)
 		c.JSON(200, result)
 	}
