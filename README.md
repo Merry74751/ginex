@@ -19,7 +19,7 @@ import (
 type UserApi struct {}
 
 func (UserApi) GetById() (string, string, router.Handle) {
-	return "GET", "getById", func(c *gin.Context){
+	return "GET", "getById", func(c *gin.Context) (any, error) {
 		s := "hello world"
 		return s, nil
 	}
