@@ -65,7 +65,7 @@ func ConvertHandle(f func(c *gin.Context) (any, error)) gin.HandlerFunc {
 				c.JSON(status.Status(), Res{Status: status.Status(), Message: err.Error()})
 				return
 			}
-			c.JSON(500, err.Error())
+			c.JSON(500, Res{Status: 500, Message: err.Error()})
 			return
 		}
 		result := ConvertResult(v)
